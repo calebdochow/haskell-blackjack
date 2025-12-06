@@ -1,0 +1,38 @@
+haskell-blackjack is a blackjack program written in haskell. 
+
+The following project contains...
+- Main.hs (haskell code portion)
+- readme (description and compilation instructions)
+- seed.txt (contains the current games seed) *MUST CONTAIN ONE INTEGER*
+- test.txt (test cases documenting input/output)
+
+The dealer draws until a 17, anything above a 21 is a bust. 
+
+[Compilation Instructions]
+- Download GHC (Glasgow Haskell Compiler) and cabal-install
+  - (sudo apt install ghc cabal-install)
+- Navigate to project directory
+- cabal build
+- caball run/cabal clean
+
+if you wish to change the seed, alter seed.txt
+
+[Limitations]
+
+Lack of Tracking Bets
+- There are no betting mechanics implemented in this program
+
+Input Restrictions
+- The user was required to input either 'hit' or 'stand', with zero whitespace
+- Any other input will prompt the user to try again
+
+Pseudo-Randomness
+- The 'randomness' that occurs when shuffling the deck is not a true randomness
+- can lead to predictability/tracking if the user knows the seed.
+
+Manual Seed Management
+- Incurring issues with files locking, the user is now required to manually alter seed.txt to change the seed.
+
+No Support for Multiple Players
+
+

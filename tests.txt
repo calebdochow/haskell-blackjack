@@ -1,0 +1,35 @@
+Test Cases:
+
+Test Case 1:
+seed=12345
+userinput=stand
+expected=dealer wins
+results=dealer wins
+
+    [Dealer]: Seven of Hearts
+    Your hand: Ten of Diamonds Seven of Diamonds (value: 17)
+    Hit or Stand?
+    stand
+    [Dealer]: Seven of Hearts Eight of Clubs (value: 15)
+    [Dealer draws]: Three of Diamonds
+    [Dealer]: Seven of Hearts Eight of Clubs Three of Diamonds (value: 18)
+    Dealer wins!
+
+Test Case 2:
+seed=12345
+userinput=hit, stand
+expected=player wins
+results=player wins
+
+    [Dealer]: Seven of Hearts
+    [Your hand]: Ten of Diamonds Seven of Diamonds (value: 17)
+    [Hit or Stand?]
+    hit
+    You drew: Three of Diamonds
+    [Your hand]: Ten of Diamonds Seven of Diamonds Three of Diamonds (value: 20)
+    [Hit or Stand?]
+    stand
+    [Dealer]: Seven of Hearts Eight of Clubs (value: 15)
+    [Dealer draws]: Two of Clubs
+    [Dealer]: Seven of Hearts Eight of Clubs Two of Clubs (value: 17)
+    You win!
