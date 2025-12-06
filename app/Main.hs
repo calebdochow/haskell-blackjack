@@ -43,7 +43,7 @@ showHand = unwords . map showCard
 fullDeck :: Deck
 fullDeck = [Card r s | s <- [Hearts .. Spades], r <- [Two .. Ace]]
 
--- Pseudo-random generator
+-- Pseudo-random generator for shuffling
 prg :: Integer -> Integer -> Integer -> Integer -> Integer -> [Integer]
 prg seed a c m n = take (fromIntegral n) $ iterate (\x -> (a*x + c) `mod` m) seed
 
@@ -54,7 +54,7 @@ shuffle deck seed = shuffleHelper deck (prg seed 1664525 1013904223 4294967296 (
     shuffleHelper [] _ acc = acc
     shuffleHelper d [] acc = acc
     shuffleHelper d (r:rs) acc =
-        let i = fromInteger (r `mod` toInteger (length d))  -- mod current deck size
+        let i = fromInteger (r `mod` toInteger (length d))
             (picked, rest) = pick i d
         in shuffleHelper rest rs (acc ++ [picked])
 
@@ -66,23 +66,29 @@ draw :: Deck -> (Card, Deck)
 draw (c:cs) = (c, cs)
 draw [] = error "Deck is empty"
 
--- Player turn
-playerTurn :: Deck -> Hand -> IO (Hand, Deck)
+-- Player turn (returns Hand, Deck, Bool for auto-win)
+playerTurn :: Deck -> Hand -> IO (Hand, Deck, Bool)
 playerTurn deck hand = do
-    putStrLn $ "[Your hand]: " ++ showHand hand ++ " (value: " ++ show (handValue hand) ++ ")"
-    if handValue hand >= 21 then return (hand, deck)
-    else do
-        putStrLn "[hit or stand?]"
-        cmd <- getLine
-        case cmd of
-            "hit" -> do
-                let (c, deck') = draw deck
-                putStrLn $ "You drew: " ++ showCard c
-                playerTurn deck' (hand ++ [c])
-            "stand" -> return (hand, deck)
-            _ -> do
-                putStrLn "Please type 'hit' or 'stand'"
-                playerTurn deck hand
+    putStrLn $ "Your hand: " ++ showHand hand ++ " (value: " ++ show (handValue hand) ++ ")"
+    case handValue hand of
+        21 -> do
+            putStrLn "You hit 21! You win!"
+            return (hand, deck, True)
+        x | x > 21 -> do
+            putStrLn "Bust! Dealer wins."
+            return (hand, deck, False)
+        _ -> do
+            putStrLn "Hit or Stand?"
+            cmd <- getLine
+            case cmd of
+                "hit" -> do
+                    let (c, deck') = draw deck
+                    putStrLn $ "You drew: " ++ showCard c
+                    playerTurn deck' (hand ++ [c])
+                "stand" -> return (hand, deck, False)
+                _ -> do
+                    putStrLn "Please type 'hit' or 'stand'"
+                    playerTurn deck hand
   where
     showCard (Card r s) = show r ++ " of " ++ show s
 
@@ -101,24 +107,27 @@ dealerTurn deck hand = do
 -- Determine winner
 determineWinner :: Hand -> Hand -> IO ()
 determineWinner player dealer
-    | playerVal > 21 = putStrLn "Bust! Dealer wins."
-    | dealerVal > 21 = putStrLn "Dealer busts! You win!"
-    | playerVal > dealerVal = putStrLn "You win!"
-    | playerVal < dealerVal = putStrLn "Dealer wins!"
-    | otherwise = putStrLn "Push!"
+    | playerVal > 21 = putStrLn "Bust! Dealer wins"
+    | dealerVal > 21 = putStrLn "Dealer busts! You win"
+    | playerVal > dealerVal = putStrLn "You win"
+    | playerVal < dealerVal = putStrLn "Dealer wins"
+    | otherwise = putStrLn "Push"
   where
     playerVal = handValue player
     dealerVal = handValue dealer
 
+-- next seed generator
+nextSeed :: Integer -> Integer
+nextSeed oldSeed = (1664525 * oldSeed + 1013904223) `mod` 4294967296
+
 -- Main game
 main :: IO ()
 main = do
-    -- Read the seed
+    -- Read seed.txt
     seedStr <- readFile "seed.txt"
     let seed = read seedStr :: Integer
 
-    -- Shuffle deck
-    let deckShuffled = shuffle fullDeck seed
+    let deckShuffled = shuffle fullDeck seed --shuffle
 
     -- Initial hands
     let (p1, deck1) = draw deckShuffled
@@ -131,14 +140,23 @@ main = do
 
     -- Show dealer first card
     putStrLn $ "[Dealer]: " ++ showCard d1
-    -- Player turn
-    (finalPlayerHand, deck5) <- playerTurn deck4 playerHand
 
-    -- Only run dealer turn if player hasn't busted
-    if handValue finalPlayerHand > 21
-        then putStrLn "Bust! Dealer wins."
-        else do
-            (finalDealerHand, _) <- dealerTurn deck5 dealerHand
-            determineWinner finalPlayerHand finalDealerHand
+    -- Player turn
+    (finalPlayerHand, deck5, playerAutoWin) <- playerTurn deck4 playerHand
+
+    if playerAutoWin
+        then putStrLn "Game over: You win!"  -- auto-win at 21
+        else if handValue finalPlayerHand > 21
+            then putStrLn "Game over: Bust! Dealer wins."
+            else do
+                -- Dealer turn
+                (finalDealerHand, _) <- dealerTurn deck5 dealerHand
+                determineWinner finalPlayerHand finalDealerHand
+
+    -- Write to seed.txt
+    let newSeed = nextSeed seed
+    writeFile "seed.txt" (show newSeed)
+    --putStrLn $ "Next seed for future games: " ++ show newSeed
+
   where
     showCard (Card r s) = show r ++ " of " ++ show s

@@ -4,9 +4,10 @@ The following project contains...
 - Main.hs (haskell code portion)
 - readme (description and compilation instructions)
 - seed.txt (contains the current games seed) *MUST CONTAIN ONE INTEGER*
-- test.txt (test cases documenting input/output)
+- tests.txt (test cases documenting input/output)
 
-The dealer draws until a 17, anything above a 21 is a bust. 
+The game seed is calculated psuedo-randomly and writes it to seed.txt.
+The dealer draws until a 17, anything above a 21 is a bust. Ace is either 1 or 11.
 
 [Compilation Instructions]
 - Download GHC (Glasgow Haskell Compiler) and cabal-install
@@ -16,6 +17,10 @@ The dealer draws until a 17, anything above a 21 is a bust.
 - caball run/cabal clean
 
 if you wish to change the seed, alter seed.txt
+
+[Documentation/Testing]
+- tests.txt documents extensive testing that runs through multiple different scenarios and possible inputs.
+- This includes verifying game rules, flow of play, as well as invalid inputs. 
 
 [Limitations]
 
@@ -29,9 +34,6 @@ Input Restrictions
 Pseudo-Randomness
 - The 'randomness' that occurs when shuffling the deck is not a true randomness
 - can lead to predictability/tracking if the user knows the seed.
-
-Manual Seed Management
-- Incurring issues with files locking, the user is now required to manually alter seed.txt to change the seed.
 
 No Support for Multiple Players
 
