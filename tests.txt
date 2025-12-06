@@ -92,105 +92,6 @@ results=Push
     [Dealer]: Nine of Diamonds Queen of Diamonds (value: 19)
     Push
 
-Test Case 6: //User draws 21
-seed=67898
-userinput= ''
-expected=player wins
-results=player wins
-    Here are the test cases for the haskell-blackjack
-    seed= The seed used for the game
-    userinput= This is the order of the user inputs, from left to right
-    expected= expected result based off of the seed
-    results= actual result of the program
-
-//PLAYER LOSES ON A STAND
-Test Case 1: //Player stands at 17, Dealer wins with an 18
-seed=12345
-userinput=stand
-expected=dealer wins
-results=dealer wins
-
-    [Dealer]: Seven of Hearts
-    Your hand: Ten of Diamonds Seven of Diamonds (value: 17)
-    Hit or Stand?
-    stand
-    [Dealer]: Seven of Hearts Eight of Clubs (value: 15)
-    [Dealer draws]: Three of Diamonds
-    [Dealer]: Seven of Hearts Eight of Clubs Three of Diamonds (value: 18)
-    Dealer wins!
-
-//PLAYER WINS ON A STAND, DEALER DOESNT BUST
-Test Case 2: //Player hits on 17, stands on  20. Dealer hits 17, Player wins.
-seed=12345
-userinput=hit, stand
-expected=player wins
-results=player wins
-
-    [Dealer]: Seven of Hearts
-    [Your hand]: Ten of Diamonds Seven of Diamonds (value: 17)
-    [Hit or Stand?]
-    hit
-    You drew: Three of Diamonds
-    [Your hand]: Ten of Diamonds Seven of Diamonds Three of Diamonds (value: 20)
-    [Hit or Stand?]
-    stand
-    [Dealer]: Seven of Hearts Eight of Clubs (value: 15)
-    [Dealer draws]: Two of Clubs
-    [Dealer]: Seven of Hearts Eight of Clubs Two of Clubs (value: 17)
-    You win!
-
-//PLAYER LOSES ON A HIT, BUST. DEALER WINS
-Test Case 3: //The player hits on 17, hits on 20, then busts with 22. Dealer wins
-seed=12345
-userinput=hit, hit
-expected=dealer wins
-results=dealer wins
-
-    [Dealer]: Seven of Hearts
-    [Your hand]: Ten of Diamonds Seven of Diamonds (value: 17)
-    [hit or stand?]
-    hit
-    You drew: Three of Diamonds
-    [Your hand]: Ten of Diamonds Seven of Diamonds Three of Diamonds (value: 20)
-    [hit or stand?]
-    hit
-    You drew: Two of Clubs
-    [Your hand]: Ten of Diamonds Seven of Diamonds Three of Diamonds Two of Clubs (value: 22)
-    Bust! Dealer wins.
-
-//ACE GETS EVAL AS 11, THEN 1
-Test Case 4: 
-seed=67891
-userinput=hit, stand
-expected=dealer wins
-results=dealer wins
-
-    [Dealer]: Ten of Spades
-    [Your hand]: Seven of Clubs Ace of Spades (value: 18) //Ace is 11
-    [hit or stand?]
-    hit
-    You drew: Queen of Diamonds
-    [Your hand]: Seven of Clubs Ace of Spades Queen of Diamonds (value: 18) //Ace is 1
-    [hit or stand?]
-    stand
-    [Dealer]: Ten of Spades King of Spades (value: 20)
-    Dealer wins!
-
-
-//PUSH, Both Player and Dealer got 19
-Test Case 5:
-seed=67893
-userinput=stand
-expected=Push
-results=Push
-
-    [Dealer]: Nine of Diamonds
-    Your hand: Nine of Clubs Jack of Hearts (value: 19)
-    Hit or Stand?
-    stand
-    [Dealer]: Nine of Diamonds Queen of Diamonds (value: 19)
-    Push
-
 //INSTANT 21
 Test Case 6: //The player draws 21
 seed=67894
@@ -262,8 +163,8 @@ results=player wins
     [Dealer draws]: Jack of Diamonds
     [Dealer]: Queen of Clubs Two of Spades Three of Spades Jack of Diamonds (value: 25)
     Dealer busts! You win
-    Next seed for future games: 1131240623
-
+    Next seed for future games: 1131240623 //HERE
+ 
 //Hitting a 21 after hitting multiple times, also test hit up to three times
 Test Case 10:
 seed=387529913

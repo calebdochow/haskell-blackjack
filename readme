@@ -8,6 +8,7 @@ The following project contains...
 
 The game seed is calculated psuedo-randomly and writes it to seed.txt.
 The dealer draws until a 17, anything above a 21 is a bust. Ace is either 1 or 11.
+Ctrl + C to terminate the program at any time
 
 [Compilation Instructions]
 - Download GHC (Glasgow Haskell Compiler) and cabal-install
@@ -15,8 +16,6 @@ The dealer draws until a 17, anything above a 21 is a bust. Ace is either 1 or 1
 - Navigate to project directory
 - cabal build
 - caball run/cabal clean
-
-if you wish to change the seed, alter seed.txt
 
 [Documentation/Testing]
 - tests.txt documents extensive testing that runs through multiple different scenarios and possible inputs.
